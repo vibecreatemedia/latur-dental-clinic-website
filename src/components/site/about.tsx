@@ -21,11 +21,11 @@ export function About() {
           <Reveal>
             <div className="relative rounded-[2rem] overflow-hidden aspect-[4/3] shadow-[0_36px_80px_-32px_rgba(11,36,31,0.5)]">
               <Image
-                src="/images/about-care.jpg"
-                alt="Dr. Phadkule gently examining a smiling patient at Latur Dental Clinic"
+                src="/images/hero-clinic.jpg"
+                alt="State-of-the-art operatory and dental setup at Latur Dental Clinic"
                 fill
                 sizes="(max-width: 1024px) 92vw, 46vw"
-                className="object-cover"
+                className="object-cover object-center"
               />
               <div className="absolute inset-0 ring-1 ring-inset ring-ink/10 rounded-[2rem]" />
             </div>

@@ -141,7 +141,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: T + 0.65, ease: EASE }}
           >
-            Expert dental care in the heart of Latur — 15+ years of clinical excellence,
+            Expert dental care in the heart of Latur, 15+ years of clinical excellence,
             painless treatments and specialist orthodontics that restore function,
             aesthetics and self-belief to every smile.
           </motion.p>

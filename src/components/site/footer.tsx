@@ -147,7 +147,14 @@ export function Footer() {
             <ul className="mt-5 space-y-4 text-sm text-ivory/65">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-gold" aria-hidden />
-                Lokhand Galli, Ganj Golai, Latur, Maharashtra
+                <a
+                  href="https://share.google/R0Olm87BlAmso3am0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-gold-light transition-colors"
+                >
+                  Lokhand Galli, Ganj Golai, Latur, Maharashtra
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-gold" aria-hidden />

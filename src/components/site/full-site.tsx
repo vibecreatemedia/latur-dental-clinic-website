@@ -17,26 +17,10 @@ import { Footer } from "@/components/site/footer";
 import { FloatingActions } from "@/components/site/floating-actions";
 import { ArrowLeft } from "lucide-react";
 
-interface FullSiteProps {
-  onBackToWip?: () => void;
-}
-
-export function FullSite({ onBackToWip }: FullSiteProps) {
+export function FullSite() {
   return (
     <div className="min-h-screen flex flex-col bg-ivory text-ink overflow-x-clip">
-      {onBackToWip && (
-        <div className="bg-teal-deep text-ivory py-2 px-4 text-center text-xs font-semibold z-[60] sticky top-0 flex items-center justify-center gap-3 border-b border-gold/30">
-          <span>👀 You are viewing the Full Website Draft.</span>
-          <button
-            type="button"
-            onClick={onBackToWip}
-            className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gold text-teal-deep text-xs font-bold hover:bg-gold-light transition-all cursor-pointer"
-          >
-            <ArrowLeft className="h-3 w-3" />
-            Back to Work in Progress View
-          </button>
-        </div>
-      )}
+
       <Preloader />
       <SmoothScroll />
       <Navbar />

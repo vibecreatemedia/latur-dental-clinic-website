@@ -60,16 +60,30 @@ export function Appointment() {
           description="Share your details and preferred date — our team will call you back to confirm your appointment."
         />
 
-        <div className="mt-14 grid lg:grid-cols-[0.9fr_1.1fr] gap-8">
+        <div className="mt-4 flex justify-center">
+          <a
+            href="https://share.google/R0Olm87BlAmso3am0"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-card px-4 py-2 text-xs font-bold text-teal hover:border-gold hover:bg-gold/10 transition-all shadow-sm"
+          >
+            <MapPin className="h-3.5 w-3.5 text-gold-deep shrink-0" />
+            <span>Google Location &amp; Profile:</span>
+            <span className="text-gold-deep underline font-mono">https://share.google/R0Olm87BlAmso3am0</span>
+          </a>
+        </div>
+
+        <div className="mt-12 grid lg:grid-cols-[0.9fr_1.1fr] gap-8">
           {/* contact info */}
           <div className="flex flex-col gap-4">
             {[
               {
                 icon: MapPin,
                 title: "Visit Us",
-                lines: ["Lokhand Galli, Ganj Golai", "Latur, Maharashtra"],
-                href: "https://www.google.com/maps/search/?api=1&query=Latur+Dental+Clinic+Ganj+Golai+Latur",
-                cta: "Get Directions",
+                lines: ["Lokhand Galli, Ganj Golai", "Latur, Maharashtra 413512"],
+                href: "https://share.google/R0Olm87BlAmso3am0",
+                urlText: "https://share.google/R0Olm87BlAmso3am0",
+                cta: "Open Google Maps Link →",
               },
               {
                 icon: Phone,
@@ -97,29 +111,56 @@ export function Appointment() {
                       </p>
                     ))}
                     {c.href ? (
-                      <a
-                        href={c.href}
-                        target={c.href.startsWith("http") ? "_blank" : undefined}
-                        rel="noreferrer"
-                        className="mt-3 inline-flex text-xs font-bold uppercase tracking-[0.16em] text-gold-deep underline-offset-4 hover:underline"
-                      >
-                        {c.cta}
-                      </a>
+                      <div className="mt-2.5 flex flex-col gap-1">
+                        {c.urlText ? (
+                          <a
+                            href={c.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[11px] font-mono font-semibold text-gold-deep hover:underline break-all"
+                          >
+                            {c.urlText}
+                          </a>
+                        ) : null}
+                        <a
+                          href={c.href}
+                          target={c.href.startsWith("http") ? "_blank" : undefined}
+                          rel="noopener noreferrer"
+                          className="inline-flex text-xs font-bold uppercase tracking-[0.16em] text-teal hover:text-gold-deep underline-offset-4 hover:underline"
+                        >
+                          {c.cta}
+                        </a>
+                      </div>
                     ) : null}
                   </div>
                 </div>
               </Reveal>
             ))}
 
+            <Reveal delay={0.25}>
+              <a
+                href="https://share.google/R0Olm87BlAmso3am0"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col sm:flex-row items-center justify-center gap-2 rounded-3xl bg-teal-deep text-ivory border border-gold/40 p-4 font-semibold text-xs transition-all duration-300 hover:bg-teal hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-14px_rgba(10,53,48,0.7)] text-center sm:text-left"
+              >
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-4.5 w-4.5 text-gold-light shrink-0" aria-hidden />
+                  <span>Google Maps:</span>
+                </div>
+                <span className="text-gold-light font-mono underline break-all">https://share.google/R0Olm87BlAmso3am0</span>
+              </a>
+            </Reveal>
+
             <Reveal delay={0.3}>
               <a
                 href="https://wa.me/919404330627?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20at%20Latur%20Dental%20Clinic."
                 target="_blank"
-                rel="noreferrer"
-                className="flex items-center justify-center gap-2.5 rounded-3xl bg-[#1fA85a] p-5 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-18px_rgba(31,168,90,0.6)]"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2.5 rounded-3xl bg-[#1fA85a] p-4.5 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_50px_-18px_rgba(31,168,90,0.6)]"
               >
                 <MessageCircle className="h-5 w-5" aria-hidden />
-                WhatsApp the Clinic
+                WhatsApp the Clinic (+91 94043 30627)
               </a>
             </Reveal>
           </div>
@@ -254,6 +295,21 @@ export function Appointment() {
                           </>
                         )}
                       </motion.button>
+
+                      <div className="sm:col-span-2 pt-2 text-center">
+                        <p className="text-xs text-ivory/60">
+                          Or find clinic directions directly on Google:
+                        </p>
+                        <a
+                          href="https://share.google/R0Olm87BlAmso3am0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 inline-flex items-center gap-1.5 text-xs font-semibold text-gold-light hover:underline font-mono break-all"
+                        >
+                          <MapPin className="h-3.5 w-3.5 text-gold shrink-0" />
+                          https://share.google/R0Olm87BlAmso3am0
+                        </a>
+                      </div>
                     </motion.form>
                   )}
                 </AnimatePresence>

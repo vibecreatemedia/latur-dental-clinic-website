@@ -11,22 +11,22 @@ const DOCTORS = [
     role: "Orthodontist & Aligners Specialist",
     creds: "BDS, MDS (Orthodontics) · Mini Residency — South Korea",
     years: "15+",
-    image: "/images/doctor-siddharth.jpg",
-    alt: "Dr. Siddharth Phadkule, orthodontist at Latur Dental Clinic",
+    image: "/images/dr-siddharth-phadkule.jpg",
+    alt: "Dr. Siddharth Phadkule, specialist orthodontist at Latur Dental Clinic",
     skills: ["Invisible Aligners", "Traditional Braces", "Orthodontic Surgery"],
     blurb:
-      "Leading orthodontist with 15+ years of clinical excellence and 10,000+ patients treated. Specialises in invisible aligners and advanced orthodontic treatment.",
+      "Leading specialist orthodontist with 15+ years of clinical excellence and 10,000+ smiles treated. International training in mini-residency South Korea.",
   },
   {
-    name: "Dr. Jyoti Phadkule",
+    name: "Dr. Jyothi Phadkule",
     role: "Cosmetic Dentist & Root Canal Specialist",
-    creds: "BDS · Cosmetic Dentistry · Root Canal Specialist",
+    creds: "BDS · Cosmetic Dentistry & Endodontics Specialist",
     years: "12+",
-    image: "/images/doctor-jyoti.jpg",
-    alt: "Dr. Jyoti Phadkule, cosmetic dentist at Latur Dental Clinic",
+    image: "/images/dr-jyothi-phadkule.jpg",
+    alt: "Dr. Jyothi Phadkule, cosmetic dentist at Latur Dental Clinic",
     skills: ["Smile Makeovers", "Root Canal Therapy", "Cosmetic Restorations"],
     blurb:
-      "Expert cosmetic dentist dedicated to painless procedures and aesthetic dentistry with natural-looking, long-lasting results.",
+      "Dedicated dental surgeon specializing in painless single-sitting root canals, aesthetic veneers, and natural-looking tooth restoration.",
   },
 ];
 
@@ -49,15 +49,16 @@ export function Doctors() {
                 whileHover={{ y: -10 }}
                 transition={{ type: "spring", stiffness: 240, damping: 22 }}
               >
-                <div className="relative aspect-[4/5] overflow-hidden">
+                <div className="relative aspect-[4/5] overflow-hidden bg-teal-deep">
                   <Image
                     src={d.image}
                     alt={d.alt}
                     fill
+                    unoptimized
                     sizes="(max-width: 768px) 92vw, 40vw"
-                    className="object-cover object-top transition-transform duration-[1.2s] ease-out group-hover:scale-[1.06]"
+                    className="object-cover object-[center_12%] transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-teal-deep/85 via-teal-deep/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-teal-deep/90 via-teal-deep/20 to-transparent" />
                   <span className="absolute top-4 right-4 rounded-full bg-ivory/90 backdrop-blur px-3.5 py-1.5 text-xs font-bold text-teal-deep">
                     {d.years} Years
                   </span>

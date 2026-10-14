@@ -1,17 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 const siteUrl = "https://laturdentalclinic.com";
@@ -98,7 +101,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fraunces.variable} ${manrope.variable} antialiased bg-background text-foreground`}>
+      <body className={`${outfit.variable} ${plusJakartaSans.variable} font-sans antialiased bg-background text-foreground`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
