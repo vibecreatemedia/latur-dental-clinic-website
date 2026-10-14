@@ -200,16 +200,17 @@ export function Hero() {
           transition={{ duration: 1.2, delay: T + 0.35, ease: EASE }}
           style={{ y: imgY }}
         >
-          <div className="relative arch-mask overflow-hidden aspect-[3/4] shadow-[0_40px_90px_-30px_rgba(11,36,31,0.55)]">
+          <div className="relative rounded-[2.5rem] overflow-hidden aspect-[4/3] shadow-[0_40px_90px_-30px_rgba(11,36,31,0.55)] border border-ink/10 bg-ivory">
             <Image
               src="/images/hero-clinic.jpg"
-              alt="Calm, premium operatory at Latur Dental Clinic with a cream dental chair and teal walls"
+              alt="Latur Dental Clinic actual clinic operatory with modern dental treatment setup"
               fill
               priority
-              sizes="(max-width: 1024px) 90vw, 40vw"
-              className="object-cover"
+              unoptimized
+              sizes="(max-width: 1024px) 90vw, 45vw"
+              className="object-cover object-center"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-teal-deep/35 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-teal-deep/30 via-transparent to-transparent pointer-events-none" />
           </div>
 
           {/* rotating logo stamp */}

@@ -24,6 +24,7 @@ export function About() {
                 src="/images/hero-clinic.jpg"
                 alt="State-of-the-art operatory and dental setup at Latur Dental Clinic"
                 fill
+                unoptimized
                 sizes="(max-width: 1024px) 92vw, 46vw"
                 className="object-cover object-center"
               />
