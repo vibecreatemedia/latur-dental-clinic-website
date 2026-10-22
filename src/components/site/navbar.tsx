@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { Phone, Clock, Menu, X, ArrowUpRight } from "lucide-react";
 
@@ -10,13 +12,14 @@ const LINKS = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Doctors", href: "#doctors" },
+  { label: "Blog", href: "/blog" },
   { label: "Reviews", href: "#testimonials" },
   { label: "FAQ", href: "#faq" },
 ];
 
 function Logo({ light = false }: { light?: boolean }) {
   return (
-    <a href="#home" className="flex items-center gap-3 group" aria-label="Latur Dental Clinic home">
+    <Link href="/" className="flex items-center gap-3 group" aria-label="Latur Dental Clinic home">
       <span
         className={`relative grid place-items-center h-12 w-12 rounded-full overflow-hidden shrink-0 ring-1 transition-all duration-500 group-hover:scale-[1.06] group-hover:-rotate-3 ${
           light
@@ -43,15 +46,24 @@ function Logo({ light = false }: { light?: boolean }) {
           Clinic &amp; Orthodontic Centre
         </span>
       </span>
-    </a>
+    </Link>
   );
 }
 
 export function Navbar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollY } = useScroll();
+
+  function resolveHref(href: string) {
+    if (href.startsWith("#")) {
+      return isHome ? href : `/${href}`;
+    }
+    return href;
+  }
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -112,25 +124,25 @@ export function Navbar() {
 
               <nav className="hidden lg:flex items-center gap-7" aria-label="Primary">
                 {LINKS.map((l) => (
-                  <a
+                  <Link
                     key={l.href}
-                    href={l.href}
+                    href={resolveHref(l.href)}
                     className="relative text-[13px] font-semibold tracking-wide text-ink/75 hover:text-ink transition-colors group"
                   >
                     {l.label}
                     <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-gold transition-all duration-300 group-hover:w-full rounded-full" />
-                  </a>
+                  </Link>
                 ))}
               </nav>
 
               <div className="flex items-center gap-2.5">
-                <a
-                  href="#appointment"
+                <Link
+                  href={resolveHref("#appointment")}
                   className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-teal px-5 h-10 text-[13px] font-semibold text-ivory shadow-[0_10px_30px_-10px_rgba(10,53,48,0.7)] transition-all duration-300 hover:bg-teal-deep hover:shadow-[0_16px_36px_-10px_rgba(10,53,48,0.8)] hover:-translate-y-0.5"
                 >
                   Book Appointment
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
-                </a>
+                </Link>
                 <button
                   onClick={() => setOpen(true)}
                   className="lg:hidden grid place-items-center h-10 w-10 rounded-full bg-teal text-ivory"
@@ -166,18 +178,21 @@ export function Navbar() {
             </div>
             <nav className="flex flex-col gap-1 px-8 pt-8" aria-label="Mobile">
               {LINKS.map((l, i) => (
-                <motion.a
+                <motion.div
                   key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="font-display text-4xl py-2.5 border-b border-ivory/10 flex items-center justify-between"
                   initial={{ opacity: 0, x: -28 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.12 + i * 0.06, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {l.label}
-                  <span className="text-gold-light/50 text-sm font-sans font-semibold">0{i + 1}</span>
-                </motion.a>
+                  <Link
+                    href={resolveHref(l.href)}
+                    onClick={() => setOpen(false)}
+                    className="font-display text-4xl py-2.5 border-b border-ivory/10 flex items-center justify-between"
+                  >
+                    {l.label}
+                    <span className="text-gold-light/50 text-sm font-sans font-semibold">0{i + 1}</span>
+                  </Link>
+                </motion.div>
               ))}
             </nav>
             <motion.div
@@ -186,13 +201,13 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              <a
-                href="#appointment"
+              <Link
+                href={resolveHref("#appointment")}
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 h-12 font-semibold text-teal-deep"
               >
                 Book Appointment <ArrowUpRight className="h-4 w-4" aria-hidden />
-              </a>
+              </Link>
               <a href="tel:+919404330627" className="text-center text-ivory/80 text-sm">
                 +91 94043 30627 · Mon – Sat, 10 AM – 8 PM
               </a>

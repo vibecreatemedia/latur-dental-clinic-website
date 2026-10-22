@@ -11,11 +11,11 @@ import { WhyUs } from "@/components/site/why-us";
 import { Journey } from "@/components/site/journey";
 import { Doctors } from "@/components/site/doctors";
 import { Testimonials } from "@/components/site/testimonials";
+import { BlogHomeSection } from "@/components/blog/blog-home-section";
 import { Appointment } from "@/components/site/appointment";
 import { Faq } from "@/components/site/faq";
 import { Footer } from "@/components/site/footer";
 import { FloatingActions } from "@/components/site/floating-actions";
-import { ArrowLeft } from "lucide-react";
 
 export function FullSite() {
   return (
@@ -34,6 +34,7 @@ export function FullSite() {
         <Journey />
         <Doctors />
         <Testimonials />
+        <BlogHomeSection />
         <Appointment />
         <Faq />
       </main>

@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, ArrowUp, Star } from "lucide-react";
 import { Reveal } from "./reveal";
@@ -8,6 +10,7 @@ import { Reveal } from "./reveal";
 const QUICK_LINKS = [
   { label: "Our Doctors", href: "#doctors" },
   { label: "Why Choose Us", href: "#why-us" },
+  { label: "Dental Blogs & Guides", href: "/blog" },
   { label: "Patient Reviews", href: "#testimonials" },
   { label: "Treatment Journey", href: "#journey" },
   { label: "Book Appointment", href: "#appointment" },
@@ -22,6 +25,16 @@ const SERVICES_LINKS = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  function resolveHref(href: string) {
+    if (href.startsWith("#")) {
+      return isHome ? href : `/${href}`;
+    }
+    return href;
+  }
+
   return (
     <footer className="relative mt-auto bg-ink text-ivory overflow-hidden grain">
       {/* CTA banner */}
@@ -58,14 +71,14 @@ export function Footer() {
           </Reveal>
           <Reveal delay={0.3}>
             <div className="mt-8 flex flex-wrap justify-center gap-3.5">
-              <motion.a
-                href="#appointment"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                className="rounded-full bg-gold px-8 h-[52px] inline-flex items-center font-bold text-teal-deep shadow-[0_18px_40px_-12px_rgba(196,151,92,0.5)]"
-              >
-                Book Your Consultation
-              </motion.a>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  href={resolveHref("#appointment")}
+                  className="rounded-full bg-gold px-8 h-[52px] inline-flex items-center font-bold text-teal-deep shadow-[0_18px_40px_-12px_rgba(196,151,92,0.5)]"
+                >
+                  Book Your Consultation
+                </Link>
+              </motion.div>
               <motion.a
                 href="tel:+919404330627"
                 whileHover={{ scale: 1.05 }}
@@ -85,7 +98,7 @@ export function Footer() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 grid gap-12 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.9fr_1fr]">
           <div>
             <div className="flex items-center gap-4">
-              <span className="relative grid place-items-center h-14 w-14 rounded-full bg-ivory ring-1 ring-ivory/25 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] shrink-0">
+              <Link href="/" className="relative grid place-items-center h-14 w-14 rounded-full bg-ivory ring-1 ring-ivory/25 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] shrink-0">
                 <Image
                   src="/logo-emblem.png"
                   alt="Latur Dental Clinic logo"
@@ -93,7 +106,7 @@ export function Footer() {
                   height={112}
                   className="h-[46px] w-[46px] object-contain"
                 />
-              </span>
+              </Link>
               <div>
                 <p className="font-display text-2xl font-semibold leading-none">Latur Dental Clinic</p>
                 <p className="mt-1.5 text-[10px] uppercase tracking-[0.3em] font-bold text-gold-light">
@@ -121,9 +134,9 @@ export function Footer() {
             <ul className="mt-5 space-y-3">
               {QUICK_LINKS.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="text-sm text-ivory/65 hover:text-gold-light transition-colors">
+                  <Link href={resolveHref(l.href)} className="text-sm text-ivory/65 hover:text-gold-light transition-colors">
                     {l.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -134,9 +147,9 @@ export function Footer() {
             <ul className="mt-5 space-y-3">
               {SERVICES_LINKS.map((s) => (
                 <li key={s}>
-                  <a href="#services" className="text-sm text-ivory/65 hover:text-gold-light transition-colors">
+                  <Link href={resolveHref("#services")} className="text-sm text-ivory/65 hover:text-gold-light transition-colors">
                     {s}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
