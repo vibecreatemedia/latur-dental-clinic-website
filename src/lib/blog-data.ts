@@ -737,7 +737,7 @@ export const BLOG_POSTS: BlogPost[] = [
     displayDate: "October 20, 2026",
     coverImage: "/images/blog/why-choose-latur-dental-clinic.jpg",
     coverImageAlt:
-      "State-of-the-art operatory and comfortable dental clinical environment at Latur Dental Clinic & Orthodontic Centre",
+      "Add Your Image Here - Latur Dental Clinic operatory and clinical environment",
     author: {
       name: "Dr. Siddharth Phadkule",
       role: "Lead Orthodontist & Dentofacial Orthopedics Specialist",
@@ -793,8 +793,8 @@ export const BLOG_POSTS: BlogPost[] = [
           "At Latur Dental Clinic, we structure appointments with dedicated consultation time. We sit down with you, listen closely to what is bothering you, examine your clinical symptoms, and discuss your personal expectations before touching a dental handpiece. Every question is welcomed and answered in straightforward, reassuring language.",
         ],
         inlineImage: {
-          src: "/images/about-care.jpg",
-          alt: "Comfortable and patient-centered dental care at Latur Dental Clinic",
+          src: "/images/blog/patient-consultation-care.jpg",
+          alt: "Professional dental consultation and 3D smile planning at Latur Dental Clinic",
           caption:
             "Every consultation at Latur Dental Clinic is unhurried and structured around patient comfort and clear communication.",
         },
