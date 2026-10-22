@@ -1002,7 +1002,7 @@ export const BLOG_POSTS: BlogPost[] = [
         ],
         inlineImage: {
           src: "/images/blog/orthodontic-digital-scan.jpg",
-          alt: "Orthodontist reviewing a 3D digital scan of teeth on a medical monitor with a patient",
+          alt: "3D intraoral digital dental scan and digital panoramic radiograph displayed on an orthodontic clinic workstation",
           caption:
             "3D digital scans and specialized radiographs provide the precision data needed to map your orthodontic treatment.",
         },
