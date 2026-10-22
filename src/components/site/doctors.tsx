@@ -54,7 +54,7 @@ export function Doctors() {
                     src={d.image}
                     alt={d.alt}
                     fill
-                    unoptimized
+                    priority
                     sizes="(max-width: 768px) 92vw, 40vw"
                     className="object-cover object-[center_12%] transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05]"
                   />

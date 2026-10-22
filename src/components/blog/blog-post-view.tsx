@@ -104,7 +104,7 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
                   src={post.author.image}
                   alt={post.author.name}
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-[center_15%]"
                 />
               </div>
               <div>
@@ -268,15 +268,30 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
                 {/* Inline Supporting Image */}
                 {section.inlineImage && (
                   <figure className="my-8 rounded-2xl overflow-hidden bg-card border border-ink/8">
-                    <div className="relative aspect-[16/10] w-full">
-                      <Image
-                        src={section.inlineImage.src}
-                        alt={section.inlineImage.alt}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 760px"
-                        className="object-cover object-top"
-                      />
-                    </div>
+                    {section.inlineImage.src.includes("dr-siddharth") ? (
+                      <div className="bg-gradient-to-b from-ivory to-teal-mist/15 p-6 sm:p-8 flex flex-col items-center justify-center">
+                        <div className="relative aspect-[4/5] w-full max-w-[360px] rounded-2xl overflow-hidden shadow-lg border border-ink/10 bg-white">
+                          <Image
+                            src={section.inlineImage.src}
+                            alt={section.inlineImage.alt}
+                            fill
+                            priority
+                            sizes="(max-width: 640px) 90vw, 360px"
+                            className="object-cover object-top"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative aspect-[16/10] w-full">
+                        <Image
+                          src={section.inlineImage.src}
+                          alt={section.inlineImage.alt}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 760px"
+                          className="object-cover object-top"
+                        />
+                      </div>
+                    )}
                     <figcaption className="p-4 text-center text-xs text-muted-foreground italic border-t border-ink/6">
                       {section.inlineImage.caption}
                     </figcaption>
@@ -485,7 +500,7 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
                     src={post.author.image}
                     alt={post.author.name}
                     fill
-                    className="object-cover object-top"
+                    className="object-cover object-[center_15%]"
                   />
                 </div>
                 <div>
