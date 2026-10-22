@@ -151,51 +151,19 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
         </header>
 
         {/* Featured Image */}
-        {post.slug === "why-choose-latur-dental-clinic" ? (
-          <figure className="mt-10">
-            <div className="rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-card aspect-[16/9] relative shadow-[0_20px_48px_-20px_rgba(11,36,31,0.18)] border border-ink/15 ring-1 ring-ink/5">
-              <Image
-                src={post.coverImage}
-                alt={post.coverImageAlt}
-                fill
-                priority
-                sizes="(max-width: 1280px) 100vw, 1200px"
-                className="object-cover object-center"
-              />
-              {/* Neutral Placeholder Badge */}
-              <div className="absolute top-4 left-4 sm:top-6 sm:left-6 rounded-full bg-ivory/95 backdrop-blur-md px-4 py-2 border border-ink/10 shadow-md flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-teal" />
-                <span className="text-xs font-bold uppercase tracking-wider text-ink">
-                  Add Your Image Here
-                </span>
-              </div>
-            </div>
-            <figcaption className="mt-3 text-center text-xs text-muted-foreground flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
-              <span className="font-semibold text-ink">Add Your Image Here</span>
-              <span>·</span>
-              <span>Replace file:</span>
-              <code className="rounded bg-ivory-deep px-2 py-0.5 font-mono text-[11px] text-teal border border-ink/10">
-                public/images/blog/why-choose-latur-dental-clinic.jpg
-              </code>
-            </figcaption>
-          </figure>
-        ) : (
-          <>
-            <div className="mt-10 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-teal-deep/5 aspect-[16/9] relative shadow-[0_24px_50px_-20px_rgba(11,36,31,0.25)] border border-ink/8">
-              <Image
-                src={post.coverImage}
-                alt={post.coverImageAlt}
-                fill
-                priority
-                sizes="(max-width: 1280px) 100vw, 1200px"
-                className="object-cover object-center"
-              />
-            </div>
-            <p className="mt-3 text-center text-xs text-muted-foreground italic">
-              {post.coverImageAlt}
-            </p>
-          </>
-        )}
+        <div className="mt-10 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-teal-deep/5 aspect-[16/9] relative shadow-[0_24px_50px_-20px_rgba(11,36,31,0.25)] border border-ink/8">
+          <Image
+            src={post.coverImage}
+            alt={post.coverImageAlt}
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1200px"
+            className="object-cover object-center"
+          />
+        </div>
+        <p className="mt-3 text-center text-xs text-muted-foreground italic">
+          {post.coverImageAlt}
+        </p>
 
         {/* Main Body Grid: Content + Sticky Sidebar */}
         <div className="mt-14 grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">

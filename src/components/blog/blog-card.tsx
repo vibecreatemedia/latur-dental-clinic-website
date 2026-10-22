@@ -38,14 +38,6 @@ export function BlogCard({ post, priority = false }: BlogCardProps) {
         <span className="absolute top-4 left-4 inline-flex items-center rounded-full bg-ivory/95 backdrop-blur-md px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.14em] text-teal-deep shadow-sm">
           {post.category}
         </span>
-
-        {/* Placeholder label badge if applicable */}
-        {post.slug === "why-choose-latur-dental-clinic" && (
-          <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-ivory/95 backdrop-blur-md px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-teal-deep shadow-sm border border-ink/10">
-            <span className="h-1.5 w-1.5 rounded-full bg-teal" />
-            Add Your Image Here
-          </span>
-        )}
       </Link>
 
       {/* Card Content */}

@@ -737,7 +737,7 @@ export const BLOG_POSTS: BlogPost[] = [
     displayDate: "October 20, 2026",
     coverImage: "/images/blog/why-choose-latur-dental-clinic.jpg",
     coverImageAlt:
-      "Add Your Image Here - Latur Dental Clinic operatory and clinical environment",
+      "Modern dental operatory and advanced clinical facilities at Latur Dental Clinic & Orthodontic Centre",
     author: {
       name: "Dr. Siddharth Phadkule",
       role: "Lead Orthodontist & Dentofacial Orthopedics Specialist",
