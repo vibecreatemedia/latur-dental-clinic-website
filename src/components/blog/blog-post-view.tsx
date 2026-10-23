@@ -21,8 +21,15 @@ import {
   Check,
   BadgeCheck,
   ShieldAlert,
+  Languages,
 } from "lucide-react";
 import type { BlogPost } from "@/lib/blog-data";
+import {
+  BLOG_UI_STRINGS,
+  BLOG_POSTS_MR,
+  CATEGORY_MAP_MR,
+  type BlogLanguage,
+} from "@/lib/blog-data-mr";
 import { BlogCard } from "@/components/blog/blog-card";
 
 interface BlogPostViewProps {
@@ -33,6 +40,45 @@ interface BlogPostViewProps {
 export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
   const [copied, setCopied] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [lang, setLang] = useState<BlogLanguage>("en");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("blog_language");
+      if (saved === "mr" || saved === "en") {
+        setLang(saved);
+      }
+    } catch {
+      // local storage unavailable
+    }
+  }, []);
+
+  const toggleLanguage = () => {
+    const nextLang: BlogLanguage = lang === "en" ? "mr" : "en";
+    setLang(nextLang);
+    try {
+      localStorage.setItem("blog_language", nextLang);
+    } catch {
+      // ignore
+    }
+  };
+
+  const isMr = lang === "mr";
+  const mrPost = isMr ? BLOG_POSTS_MR[post.slug] : undefined;
+  const ui = BLOG_UI_STRINGS[lang];
+
+  const displayTitle = mrPost?.title || post.title;
+  const displayExcerpt = mrPost?.excerpt || post.excerpt;
+  const displayCategory = isMr
+    ? CATEGORY_MAP_MR[post.category] || post.category
+    : post.category;
+  const displayDisplayDate = mrPost?.displayDate || post.displayDate;
+  const displayReadingTime = mrPost?.readingTime || post.readingTime;
+  const displayCoverAlt = mrPost?.coverImageAlt || post.coverImageAlt;
+  const displayAuthor = mrPost?.author || post.author;
+  const displayToc = mrPost?.tableOfContents || post.tableOfContents;
+  const displaySections = mrPost?.contentSections || post.contentSections;
+  const displayFaq = mrPost?.faq || post.faq;
 
   // Guarantee that when an article is opened or switched, it opens at the very top
   useEffect(() => {
@@ -65,8 +111,8 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
       try {
         if (navigator.share) {
           await navigator.share({
-            title: post.title,
-            text: post.excerpt,
+            title: displayTitle,
+            text: displayExcerpt,
             url: window.location.href,
           });
         } else {
@@ -83,42 +129,55 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
   return (
     <article className="py-8 sm:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* Breadcrumb Navigation */}
-        <nav
-          aria-label="Breadcrumb"
-          className="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted-foreground mb-8"
-        >
-          <Link
-            href="/"
-            className="flex items-center gap-1.5 hover:text-ink transition-colors"
+        {/* Breadcrumb Navigation + Language Switch */}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+          <nav
+            aria-label="Breadcrumb"
+            className="flex flex-wrap items-center gap-2 text-xs font-semibold text-muted-foreground"
           >
-            <Home className="h-3.5 w-3.5" aria-hidden />
-            <span>Home</span>
-          </Link>
-          <ChevronRight className="h-3 w-3 text-border" aria-hidden />
-          <Link href="/blog" className="hover:text-ink transition-colors">
-            Blog
-          </Link>
-          <ChevronRight className="h-3 w-3 text-border" aria-hidden />
-          <span className="text-teal font-medium">{post.category}</span>
-        </nav>
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 hover:text-ink transition-colors"
+            >
+              <Home className="h-3.5 w-3.5" aria-hidden />
+              <span>{ui.home}</span>
+            </Link>
+            <ChevronRight className="h-3 w-3 text-border" aria-hidden />
+            <Link href="/blog" className="hover:text-ink transition-colors">
+              {ui.blog}
+            </Link>
+            <ChevronRight className="h-3 w-3 text-border" aria-hidden />
+            <span className="text-teal font-medium">{displayCategory}</span>
+          </nav>
+
+          {/* Language Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleLanguage}
+            className="inline-flex items-center gap-2 rounded-full border border-teal/25 bg-card px-4 py-1.5 text-xs font-bold text-teal hover:bg-teal hover:text-ivory shadow-sm transition-all duration-300"
+            aria-label={ui.toggleAria}
+          >
+            <Languages className="h-3.5 w-3.5" aria-hidden />
+            <span>{ui.toggleBtn}</span>
+          </button>
+        </div>
 
         {/* Article Header Container */}
         <header className="max-w-4xl">
           {/* Category Pill */}
           <div className="inline-flex items-center gap-2 rounded-full bg-teal-mist px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-teal">
             <span className="h-1.5 w-1.5 rounded-full bg-gold-deep" />
-            {post.category}
+            {displayCategory}
           </div>
 
           {/* Main H1 Title */}
           <h1 className="mt-5 font-display text-3xl sm:text-5xl lg:text-[52px] font-semibold tracking-tight text-ink leading-[1.12]">
-            {post.title}
+            {displayTitle}
           </h1>
 
           {/* Short Introduction / Excerpt */}
           <p className="mt-6 text-lg sm:text-xl leading-relaxed text-muted-foreground font-normal">
-            {post.excerpt}
+            {displayExcerpt}
           </p>
 
           {/* Author & Meta Row */}
@@ -127,19 +186,19 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
             <div className="flex items-center gap-3.5">
               <div className="relative h-12 w-12 rounded-full overflow-hidden ring-2 ring-gold/30 bg-teal shrink-0">
                 <Image
-                  src={post.author.image}
-                  alt={post.author.name}
+                  src={displayAuthor.image}
+                  alt={displayAuthor.name}
                   fill
                   className="object-cover object-[center_15%]"
                 />
               </div>
               <div>
                 <p className="text-sm font-bold text-ink flex items-center gap-1.5">
-                  {post.author.name}
+                  {displayAuthor.name}
                   <BadgeCheck className="h-4 w-4 text-teal" aria-hidden />
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {post.author.role} · {post.author.creds}
+                  {displayAuthor.role} · {displayAuthor.creds}
                 </p>
               </div>
             </div>
@@ -148,12 +207,12 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
             <div className="flex items-center gap-4 text-xs font-medium text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5 text-gold-deep" aria-hidden />
-                Published: {post.displayDate}
+                {ui.published} {displayDisplayDate}
               </span>
               <span className="h-1 w-1 rounded-full bg-border" />
               <span className="inline-flex items-center gap-1.5">
                 <Clock className="h-3.5 w-3.5 text-gold-deep" aria-hidden />
-                {post.readingTime}
+                {displayReadingTime}
               </span>
               <button
                 onClick={handleShare}
@@ -163,12 +222,12 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
                 {copied ? (
                   <>
                     <Check className="h-3.5 w-3.5 text-green-600" />
-                    Copied!
+                    {ui.copied}
                   </>
                 ) : (
                   <>
                     <Share2 className="h-3.5 w-3.5" />
-                    Share
+                    {ui.share}
                   </>
                 )}
               </button>
@@ -180,7 +239,7 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
         <div className="mt-10 rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden bg-teal-deep/5 aspect-[16/9] relative shadow-[0_24px_50px_-20px_rgba(11,36,31,0.25)] border border-ink/8">
           <Image
             src={post.coverImage}
-            alt={post.coverImageAlt}
+            alt={displayCoverAlt}
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1200px"
@@ -188,7 +247,7 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
           />
         </div>
         <p className="mt-3 text-center text-xs text-muted-foreground italic">
-          {post.coverImageAlt}
+          {displayCoverAlt}
         </p>
 
         {/* Main Body Grid: Content + Sticky Sidebar */}
@@ -198,10 +257,10 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
             {/* Table of Contents for Mobile / In-flow */}
             <div className="rounded-3xl bg-ivory-deep border border-ink/8 p-6 lg:hidden">
               <p className="font-display text-lg font-semibold text-ink mb-3">
-                Table of Contents
+                {ui.tableOfContents}
               </p>
               <ul className="space-y-2 text-sm">
-                {post.tableOfContents.map((item, idx) => (
+                {displayToc.map((item, idx) => (
                   <li key={item.id}>
                     <a
                       href={`#${item.id}`}
@@ -218,7 +277,7 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
             </div>
 
             {/* Structured Content Sections */}
-            {post.contentSections.map((section) => (
+            {displaySections.map((section) => (
               <section
                 key={section.id}
                 id={section.id}
@@ -377,30 +436,25 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
                 </span>
                 <div className="text-sm leading-relaxed text-muted-foreground">
                   <p className="font-display font-semibold text-ink text-base">
-                    Educational Information Disclaimer
+                    {ui.disclaimerTitle}
                   </p>
                   <p className="mt-1.5">
-                    This article is written for educational and informational
-                    purposes only and does not constitute a personal medical or
-                    dental diagnosis. Individual orthodontic suitability, biology,
-                    and treatment plans can only be established through an
-                    in-person clinical examination, dental X-rays, and diagnostic
-                    records by a qualified dental professional.
+                    {ui.disclaimerText}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Frequently Asked Questions Accordion */}
-            {post.faq && post.faq.length > 0 && (
+            {displayFaq && displayFaq.length > 0 && (
               <section id="faq" className="scroll-mt-28 pt-4">
                 <h2 className="font-display text-2xl sm:text-3xl font-semibold text-ink tracking-tight mb-6 flex items-center gap-2.5">
                   <HelpCircle className="h-6 w-6 text-gold-deep" />
-                  Frequently Asked Questions
+                  {ui.faqHeading}
                 </h2>
 
                 <div className="space-y-3">
-                  {post.faq.map((item, idx) => {
+                  {displayFaq.map((item, idx) => {
                     const isOpen = openFaqIndex === idx;
                     return (
                       <div
@@ -451,22 +505,20 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
               />
               <div className="relative max-w-xl mx-auto">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/20 px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-gold-light">
-                  Expert Orthodontic Care
+                  {ui.articleCtaBadge}
                 </span>
                 <h3 className="mt-4 font-display text-2xl sm:text-3xl font-semibold leading-snug">
-                  Ready to Discuss Your Smile Goals?
+                  {ui.articleCtaTitle}
                 </h3>
                 <p className="mt-3 text-sm text-ivory/75 leading-relaxed">
-                  Book an in-person consultation with Dr. Siddharth Phadkule at
-                  Latur Dental Clinic &amp; Orthodontic Centre. We will walk you
-                  through your options with complete transparency.
+                  {ui.articleCtaDesc}
                 </p>
                 <div className="mt-8 flex flex-wrap justify-center gap-3.5">
                   <Link
                     href="/#appointment"
                     className="rounded-full bg-gold px-8 h-12 inline-flex items-center gap-2 text-sm font-bold text-teal-deep shadow-md hover:bg-gold-light transition-all"
                   >
-                    Book Your Consultation
+                    {ui.bookConsultation}
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
                   <a
@@ -474,7 +526,7 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
                     className="rounded-full border border-ivory/30 px-7 h-12 inline-flex items-center gap-2 text-sm font-semibold text-ivory hover:bg-ivory hover:text-ink transition-colors"
                   >
                     <Phone className="h-4 w-4" />
-                    Call +91 94043 30627
+                    {ui.callNumber}
                   </a>
                 </div>
               </div>
@@ -492,7 +544,7 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
                 className="inline-flex items-center gap-2 text-sm font-bold text-teal hover:text-gold-deep transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Back to All Dental Blogs &amp; Guides
+                {ui.backToBlog}
               </Link>
             </div>
           </main>
@@ -502,11 +554,11 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
             {/* Table of Contents card */}
             <div className="rounded-3xl bg-card border border-ink/8 p-6 shadow-sm">
               <p className="font-display text-base font-bold text-ink uppercase tracking-wider text-xs mb-4 text-gold-deep">
-                On This Page
+                {ui.onThisPage}
               </p>
               <nav aria-label="Table of contents">
                 <ul className="space-y-2.5 text-xs font-medium">
-                  {post.tableOfContents.map((item, idx) => (
+                  {displayToc.map((item, idx) => (
                     <li key={item.id}>
                       <a
                         href={`#${item.id}`}
@@ -528,42 +580,39 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
               <div className="flex items-center gap-3">
                 <div className="relative h-14 w-14 rounded-full overflow-hidden bg-teal shrink-0 ring-2 ring-gold/40">
                   <Image
-                    src={post.author.image}
-                    alt={post.author.name}
+                    src={displayAuthor.image}
+                    alt={displayAuthor.name}
                     fill
                     className="object-cover object-[center_15%]"
                   />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-ink">
-                    {post.author.name}
+                    {displayAuthor.name}
                   </p>
                   <p className="text-xs text-gold-deep font-semibold">
-                    Specialist Orthodontist
+                    {ui.specialistTitle}
                   </p>
                 </div>
               </div>
               <p className="mt-3.5 text-xs text-muted-foreground leading-relaxed">
-                15+ years of specialized orthodontic excellence, treating over
-                10,000 smiles with traditional braces, ceramic brackets, and clear
-                aligners in Latur.
+                {ui.specialistBio}
               </p>
               <Link
                 href="/#appointment"
                 className="mt-4 w-full rounded-full bg-teal text-ivory text-xs font-bold py-2.5 px-4 text-center block hover:bg-teal-deep transition-colors"
               >
-                Book with Dr. Siddharth
+                {ui.bookWithDoctor}
               </Link>
             </div>
 
             {/* Clinic Quick Contact Widget */}
             <div className="rounded-3xl bg-ivory-deep border border-ink/8 p-6">
               <p className="text-xs font-bold uppercase tracking-wider text-gold-deep">
-                Need Fast Assistance?
+                {ui.quickContactTitle}
               </p>
               <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
-                Speak directly with our team to inquire about braces, aligners, or
-                dental consultations.
+                {ui.quickContactDesc}
               </p>
               <a
                 href="tel:+919404330627"
@@ -582,23 +631,23 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
               <div>
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold-deep">
-                  Keep Learning
+                  {ui.keepLearning}
                 </span>
                 <h2 className="mt-2 font-display text-2xl sm:text-3xl font-semibold text-ink">
-                  Related Articles &amp; Guides
+                  {ui.relatedGuides}
                 </h2>
               </div>
               <Link
                 href="/blog"
                 className="text-xs font-bold uppercase tracking-wider text-teal hover:text-gold-deep flex items-center gap-1"
               >
-                View all articles <ArrowRight className="h-3.5 w-3.5" />
+                {ui.viewAllArticles} <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {relatedPosts.map((related) => (
-                <BlogCard key={related.slug} post={related} />
+                <BlogCard key={related.slug} post={related} lang={lang} />
               ))}
             </div>
           </section>
