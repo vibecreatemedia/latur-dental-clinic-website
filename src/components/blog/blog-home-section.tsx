@@ -55,6 +55,11 @@ export function BlogHomeSection() {
         <Reveal delay={0.25} className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/blog"
+            onClick={() => {
+              window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+              if (document.documentElement) document.documentElement.scrollTop = 0;
+              if (document.body) document.body.scrollTop = 0;
+            }}
             className="group inline-flex items-center gap-2.5 rounded-full bg-teal px-8 h-[52px] text-sm font-bold text-ivory shadow-[0_14px_36px_-12px_rgba(17,75,68,0.55)] transition-all duration-300 hover:bg-teal-deep hover:shadow-[0_20px_44px_-12px_rgba(10,53,48,0.7)] hover:-translate-y-0.5"
           >
             <BookOpen className="h-4 w-4 text-gold-light" aria-hidden />

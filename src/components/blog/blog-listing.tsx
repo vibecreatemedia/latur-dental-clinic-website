@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,6 +21,14 @@ import { getAllBlogPosts, type BlogPost } from "@/lib/blog-data";
 import { BlogCard } from "@/components/blog/blog-card";
 import { Reveal } from "@/components/site/reveal";
 
+function scrollToTopInstant() {
+  if (typeof window !== "undefined") {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }
+}
+
 const CATEGORIES = [
   "All",
   "Braces Guide",
@@ -34,6 +42,11 @@ export function BlogListing() {
   const allPosts = useMemo(() => getAllBlogPosts(), []);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  useEffect(() => {
+    if (window.location.hash) return;
+    scrollToTopInstant();
+  }, []);
 
   // Featured article (first one)
   const featuredPost = allPosts[0];
@@ -119,6 +132,7 @@ export function BlogListing() {
                   <h2 className="mt-5 font-display text-2xl sm:text-4xl font-semibold leading-tight text-ivory">
                     <Link
                       href={`/blog/${featuredPost.slug}`}
+                      onClick={scrollToTopInstant}
                       className="hover:text-gold-light transition-colors"
                     >
                       {featuredPost.title}
@@ -145,6 +159,7 @@ export function BlogListing() {
                   <div className="mt-8">
                     <Link
                       href={`/blog/${featuredPost.slug}`}
+                      onClick={scrollToTopInstant}
                       className="inline-flex items-center gap-2 rounded-full bg-gold px-7 h-12 text-sm font-bold text-teal-deep shadow-[0_12px_28px_-10px_rgba(196,151,92,0.6)] hover:bg-gold-light transition-all"
                     >
                       <span>Read Complete Guide</span>

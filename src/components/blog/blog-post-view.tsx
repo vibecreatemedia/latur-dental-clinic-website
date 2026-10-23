@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,6 +33,32 @@ interface BlogPostViewProps {
 export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
   const [copied, setCopied] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  // Guarantee that when an article is opened or switched, it opens at the very top
+  useEffect(() => {
+    if (window.location.hash) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
+        target.scrollIntoView({ behavior: "instant" });
+        return;
+      }
+    }
+
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      if (document.documentElement) document.documentElement.scrollTop = 0;
+      if (document.body) document.body.scrollTop = 0;
+    };
+
+    resetScroll();
+    const rafId = requestAnimationFrame(resetScroll);
+    const timer = setTimeout(resetScroll, 50);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timer);
+    };
+  }, [post.slug]);
 
   const handleShare = async () => {
     if (typeof window !== "undefined") {
@@ -458,6 +484,11 @@ export function BlogPostView({ post, relatedPosts }: BlogPostViewProps) {
             <div className="pt-4">
               <Link
                 href="/blog"
+                onClick={() => {
+                  window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+                  if (document.documentElement) document.documentElement.scrollTop = 0;
+                  if (document.body) document.body.scrollTop = 0;
+                }}
                 className="inline-flex items-center gap-2 text-sm font-bold text-teal hover:text-gold-deep transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />

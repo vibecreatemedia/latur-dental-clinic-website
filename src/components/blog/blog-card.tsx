@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Clock, Calendar, ArrowUpRight } from "lucide-react";
 import type { BlogPost } from "@/lib/blog-data";
@@ -11,16 +12,37 @@ interface BlogCardProps {
   priority?: boolean;
 }
 
+function scrollToTopInstant() {
+  if (typeof window !== "undefined") {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    if (document.documentElement) document.documentElement.scrollTop = 0;
+    if (document.body) document.body.scrollTop = 0;
+  }
+}
+
 export function BlogCard({ post, priority = false }: BlogCardProps) {
+  const router = useRouter();
+
+  const handleCardClick = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    // If the click was not already on an anchor tag, navigate to the post
+    if (!target.closest("a")) {
+      scrollToTopInstant();
+      router.push(`/blog/${post.slug}`);
+    }
+  };
+
   return (
     <motion.article
-      className="group relative flex flex-col h-full rounded-[2rem] bg-card border border-ink/8 overflow-hidden transition-all duration-500 hover:border-gold/50 hover:shadow-[0_28px_60px_-24px_rgba(11,36,31,0.25)] hover:-translate-y-1.5"
+      onClick={handleCardClick}
+      className="group relative flex flex-col h-full rounded-[2rem] bg-card border border-ink/8 overflow-hidden transition-all duration-500 hover:border-gold/50 hover:shadow-[0_28px_60px_-24px_rgba(11,36,31,0.25)] hover:-translate-y-1.5 cursor-pointer"
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 20 }}
     >
       {/* Featured image container */}
       <Link
         href={`/blog/${post.slug}`}
+        onClick={scrollToTopInstant}
         className="relative block aspect-[16/10] overflow-hidden bg-teal-deep/10"
         aria-label={`Read article: ${post.title}`}
       >
@@ -57,7 +79,11 @@ export function BlogCard({ post, priority = false }: BlogCardProps) {
 
         {/* Title */}
         <h3 className="font-display text-xl sm:text-[22px] font-bold leading-snug text-ink group-hover:text-teal transition-colors duration-300">
-          <Link href={`/blog/${post.slug}`} className="focus:outline-none">
+          <Link
+            href={`/blog/${post.slug}`}
+            onClick={scrollToTopInstant}
+            className="focus:outline-none"
+          >
             {post.title}
           </Link>
         </h3>
@@ -71,6 +97,7 @@ export function BlogCard({ post, priority = false }: BlogCardProps) {
         <div className="mt-auto pt-6 flex items-center justify-between border-t border-ink/6">
           <Link
             href={`/blog/${post.slug}`}
+            onClick={scrollToTopInstant}
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-teal hover:text-gold-deep transition-colors"
           >
             <span>Read Article</span>
